@@ -1,0 +1,45 @@
+This software is licensed under the MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Keith Minkler <kminkler@gmail.com>
+Copyright (c) 2010 Keith Minkler
+
+Curl_Multi can be used to make asynchronous curl calls.
+
+When making an asynchronous call, you first add individual curl handles
+to the class using the {@link Curl_Multi::addHandle() addHandle()} method.
+
+Next you must periodically invoke the {@link Curl_Multi::poll() poll()} command.
+PHP is (usually) not a multi-threaded language, so curl events will not be processed 
+in the background, and will only be processed with subsequent calls to poll().  
+poll() is non-blocking, so it will not interrupt your application if there is 
+nothing to do.
+
+When data is received from the request, the callback method supplied in the 
+{@link Curl_Multi::addHandle() addHandle()} method will be called.  The prototype
+for this callback is: callback($curl_result_info, $curl_data, $user_data)
+
+Additional requests may be added at any time, they do not have to be added all at once.
+
+Unit tests were run using PHPUnit 3.3.9 with 100% code coverage.
+
+To run unit tests:
+
+	php-curl-multi/ $ phpunit test/Curl_Multi_Test.php

@@ -182,7 +182,9 @@ class Curl_Multi
 		}
 		while ($result == CURLM_CALL_MULTI_PERFORM && $still_running > 0);
 
-		return $still_running > 0;
+		// don't trust $still_running, as user may have added more urls
+		// in callbacks
+		return (boolean)$this->_curls;
 	}
 
 	/**
